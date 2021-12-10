@@ -1,7 +1,17 @@
 from typing import Callable, Tuple, Dict
 from functools import reduce
 
-commandsReactors: Dict[str, Callable[[int, int, int, int], Tuple[int, int, int]]] = {
+commandMap1: Dict[str, Callable[[int, int, int, int], Tuple[int, int, int]]] = {
+    "down": lambda a, d, p, m: (a, d + m, p),
+    "up": lambda a, d, p, m: (a, d - m, p),
+    "forward": lambda a, d, p, m: (
+        a,
+        d,
+        p + m,
+    ),
+}
+
+commandMap2: Dict[str, Callable[[int, int, int, int], Tuple[int, int, int]]] = {
     "down": lambda a, d, p, m: (a + m, d, p),
     "up": lambda a, d, p, m: (a - m, d, p),
     "forward": lambda a, d, p, m: (
@@ -11,14 +21,17 @@ commandsReactors: Dict[str, Callable[[int, int, int, int], Tuple[int, int, int]]
     ),
 }
 
-def reducer(aim, depth, position, command):
-    return commandsReactors[command[0]](aim, depth, position, command[1])
+
+def makeReducer(commandMap):
+    return lambda a, d, p, c: commandMap[c[0]](a, d, p, c[1])
 
 
-def solve(path: str) -> int:
+def solve(path: str, commandMap) -> int:
     def parseLine(input: str) -> Tuple[str, int]:
         data = input.rstrip().split(" ")
         return data[0], int(data[1])
+
+    reducer = makeReducer(commandMap)
 
     commands = [parseLine(x) for x in open(path, "r")]
 
@@ -30,5 +43,10 @@ def solve(path: str) -> int:
     return position * depth
 
 
-print(solve("./days/2/test.txt"))
-print(solve("./days/2/input.txt"))
+def solvePart(commandMap):
+    print(solve("./days/2/mike/test.txt", commandMap))
+    print(solve("./days/2/mike/input.txt", commandMap))
+
+
+solvePart(commandMap1)
+solvePart(commandMap2)
