@@ -2,7 +2,7 @@ from typing import List
 
 
 def transpose(data: List[List[int]]) -> List[List[int]]:
-    return list(zip(*data))
+    return [*zip(*data)]
 
 
 def bit_list_to_int(bits: List[int]):
@@ -12,16 +12,16 @@ def bit_list_to_int(bits: List[int]):
     return x
 
 
-def get_bit_recursive(index, rows, bit_criteria):
+def find_code_recursive(index, rows, bit_criteria) -> int:
 
     indexed_column = transpose(rows)[index]
 
     new_rows = [row for row in rows if bit_criteria(indexed_column, row[index])]
 
     if len(new_rows) == 1:
-        return new_rows[0]
+        return bit_list_to_int(new_rows[0])
 
-    return get_bit_recursive(index + 1, new_rows, bit_criteria)
+    return find_code_recursive(index + 1, new_rows, bit_criteria)
 
 
 def oxygen_bit_criteria(column, bit):
@@ -34,10 +34,10 @@ def co2_bit_criteria(column, bit):
 
 def solve(path: str) -> int:
 
-    rows = [list(int(char) for char in line.strip()) for line in open(path)]
+    rows = [[int(char) for char in line.strip()] for line in open(path)]
 
-    oxygen = bit_list_to_int(get_bit_recursive(0, rows, oxygen_bit_criteria))
-    co2 = bit_list_to_int(get_bit_recursive(0, rows, co2_bit_criteria))
+    oxygen = find_code_recursive(0, rows, oxygen_bit_criteria)
+    co2 = find_code_recursive(0, rows, co2_bit_criteria)
 
     return oxygen * co2
 
