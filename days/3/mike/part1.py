@@ -1,14 +1,5 @@
 from typing import List
-
-
-def transpose(matrix: List[List[int]]) -> List[List[int]]:
-    return list(zip(*matrix))
-
-def bit_list_to_int(bits: List[int]):
-    x = 0
-    for bit in bits:
-        x = (x << 1) + bit
-    return x
+from utils import transpose, bit_list_to_int
 
 
 def solve(path: str) -> int:
@@ -34,4 +25,3 @@ def solve(path: str) -> int:
 
 print(solve("days/3/mike/test.txt"))
 print(solve("days/3/mike/input.txt"))
-
