@@ -1,0 +1,53 @@
+#!/usr/bin/python3
+
+input_real_data_path = "real_data.txt"
+input_test_data_path = "test_data.txt"
+
+def import_data(inputFile):
+    with open(inputFile, "r") as input_file:
+        input_data = input_file.readlines()
+    return input_data
+
+def clean_data(input_data):
+    clean_data = []
+    for line in input_data:
+        clean_data.append(line.rstrip().split(" "))
+    return clean_data
+
+def proccess_data_part_1(data):
+    x = 0
+    y = 0
+
+    for step in clean_data:
+        if step[0] == "up":
+            y -= int(step[1])
+        elif step[0] == "down":
+            y += int(step[1])
+        elif step[0] == "forward":
+            x += int(step[1])
+    return x, y
+
+def proccess_data_part_2(data):
+    x = 0
+    y = 0
+
+    depth = 0
+
+    for step in clean_data:
+        if step[0] == "up":
+            y -= int(step[1])
+        elif step[0] == "down":
+            y += int(step[1])
+        elif step[0] == "forward":
+            x += int(step[1]) * y
+            depth += int(step[1])   
+    return x, depth
+
+input_data = import_data(input_real_data_path)
+clean_data = clean_data(input_data)
+
+answer_1 = proccess_data_part_1(clean_data)
+answer_2 = proccess_data_part_2(clean_data)
+
+print("The answer to day 2 part 1 is  %i forward and %i deep, answer = %i." %(answer_1[0], answer_1[1], answer_1[0]*answer_1[1]))
+print("The answer to day 2 part 2 is  %i forward and %i deep, answer = %i." %(answer_2[0], answer_2[1], answer_2[0]*answer_2[1]))
