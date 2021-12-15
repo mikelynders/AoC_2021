@@ -12,11 +12,9 @@ def solve(path: str) -> int:
         sum(column) > len(column) / 2 for column in columns
     ]  # determine if number of 1's in each column is more than half
 
-    int_from_bits_iter = lambda x, bit: (x << 1) + bit
-
     gamma = epsilon = 0
     for bit in bits:
-        gamma, epsilon = int_from_bits_iter(gamma, bit), int_from_bits_iter(
+        gamma, epsilon = bit_list_to_int(gamma, bit), bit_list_to_int(
             epsilon, not bit
         )
 
