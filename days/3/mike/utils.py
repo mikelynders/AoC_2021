@@ -2,7 +2,7 @@ from typing import List
 
 
 def transpose(data: List[List[int]]) -> List[List[int]]:
-    return [*zip(*data)]
+    return list(zip(*data))
 
 
 def bit_list_to_int(bits: List[int]):

@@ -2,6 +2,14 @@ from typing import List
 from utils import transpose, bit_list_to_int
 
 
+def oxygen_bit_criteria(column, bit):
+    return bit == (sum(column) >= len(column) / 2)
+
+
+def co2_bit_criteria(column, bit):
+    return bit == (sum(column) < len(column) / 2)
+
+
 def solve(path: str) -> int:
     def find_code_recursive(index, rows, bit_criteria) -> int:
 
@@ -14,7 +22,7 @@ def solve(path: str) -> int:
 
         return find_code_recursive(index + 1, new_rows, bit_criteria)
 
-    rows = [[int(char) for char in line.strip()] for line in open(path)]
+    rows = [[bool(int(char)) for char in line.strip()] for line in open(path)]
 
     oxygen = find_code_recursive(0, rows, oxygen_bit_criteria)
     co2 = find_code_recursive(0, rows, co2_bit_criteria)
@@ -22,13 +30,22 @@ def solve(path: str) -> int:
     return oxygen * co2
 
 
-def oxygen_bit_criteria(column, bit):
-    return bit == (sum(column) >= len(column) / 2)
-
-
-def co2_bit_criteria(column, bit):
-    return bit == (sum(column) < len(column) / 2)
-
-
 print(solve("days/3/mike/test.txt"))
 print(solve("days/3/mike/input.txt"))
+
+"""
+class Number():
+
+    def __init__(self, value):
+        self.value = value
+
+    def double(self):
+        return Number(self.value * 2)
+
+    def divide(self):
+        return Number(self.value / 2)
+
+a = Number(2)
+
+c = a.double().divide()
+"""
